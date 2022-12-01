@@ -26,7 +26,6 @@ public class Menu extends BaseTimeEntity {
     private String name;
     private int price;
     private int stockQuantity;
-    //private List<Review> reviews = new ArrayList<>();
 
     @Builder
     public Menu(String name, int price, int stockQuantity) {
@@ -34,11 +33,4 @@ public class Menu extends BaseTimeEntity {
         this.price = price;
         this.stockQuantity = stockQuantity;
     }
-/*
-    public void addReview(Review review) {
-        if (review != null) {
-            this.reviews.add(review);
-        }
-    }
- */
 }
