@@ -5,14 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import stable.horseCafe.domain.BaseTimeEntity;
-import stable.horseCafe.domain.review.Review;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
@@ -26,11 +20,18 @@ public class Menu extends BaseTimeEntity {
     private String name;
     private int price;
     private int stockQuantity;
+    @Enumerated(EnumType.STRING)
+    private MenuType menuType;
+
+    @Enumerated(EnumType.STRING)
+    private MenuStatus menuStatus;
 
     @Builder
-    public Menu(String name, int price, int stockQuantity) {
+    public Menu(String name, int price, int stockQuantity, MenuType menuType, MenuStatus menuStatus) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
+        this.menuType = menuType;
+        this.menuStatus = menuStatus;
     }
 }
