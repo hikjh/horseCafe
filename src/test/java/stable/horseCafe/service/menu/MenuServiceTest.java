@@ -51,4 +51,20 @@ class MenuServiceTest {
         assertEquals(menu.getName(), updateReqDto.getName());
         assertEquals(menu.getMenuType(), updateReqDto.getMenuType());
     }
+
+    @Test
+    void 메뉴_삭제() {
+        MenuSaveReqDto dto = MenuSaveReqDto.builder()
+                .name("아메리카노")
+                .price(4500)
+                .stockQuantity(50)
+                .menuType(MenuType.COFFEE)
+                .menuStatus(MenuStatus.ICE)
+                .build();
+
+        Long savedId = menuService.registerMenu(dto);
+        Long result = menuService.deleteMenu(savedId);
+
+        assertEquals(result, savedId);
+    }
 }
