@@ -19,6 +19,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor
 @ToString
 @Entity
+@Table(name = "orders")
 public class Order extends BaseTimeEntity {
 
     @Id @GeneratedValue
