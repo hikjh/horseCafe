@@ -34,7 +34,20 @@ public class MenuService {
                     throw new GlobalException(ResponseCode.BAD_REQUEST, "존재하지 않는 메뉴입니다.");
                 });
 
-        menu.update(dto.getName(), dto.getPrice(), dto.getStockQuantity(), dto.getMenuType());
+        menu.update(dto.getName(), dto.getPrice(), dto.getStockQuantity(), dto.getMenuType(), dto.getMenuStatus());
+        return menuId;
+    }
+
+    /**
+     *  메뉴 수정
+     */
+    public Long deleteMenu(Long menuId) {
+        Menu menu = menuRepository.findById(menuId)
+                .orElseThrow(() -> {
+                    throw new GlobalException(ResponseCode.BAD_REQUEST, "존재하지 않는 메뉴입니다.");
+                });
+
+        menuRepository.delete(menu);
         return menuId;
     }
 }

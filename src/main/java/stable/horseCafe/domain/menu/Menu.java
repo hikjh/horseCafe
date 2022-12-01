@@ -35,10 +35,11 @@ public class Menu extends BaseTimeEntity {
         this.menuStatus = menuStatus;
     }
 
-    public void update(String name, int price, int stockQuantity, MenuType menuType) {
+    public void update(String name, int price, int stockQuantity, MenuType menuType, MenuStatus menuStatus) {
         this.name = name;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.menuType = menuType;
+        this.menuStatus = menuStatus;
     }
 }
