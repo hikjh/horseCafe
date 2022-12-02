@@ -14,7 +14,6 @@ import static javax.persistence.FetchType.*;
 
 @Getter
 @NoArgsConstructor
-@ToString
 @Entity
 public class Review extends BaseTimeEntity {
 
@@ -34,6 +33,7 @@ public class Review extends BaseTimeEntity {
     @Builder
     public Review(Menu menu, Member member, String content) {
         this.menu = menu;
+        menu.addReview(this);
         this.member = member;
         this.content = content;
     }
