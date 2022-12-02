@@ -30,8 +30,6 @@ public class Menu extends BaseTimeEntity {
     private MenuType menuType;
     @Enumerated(EnumType.STRING)
     private MenuStatus menuStatus;
-    @OneToMany(fetch = LAZY, mappedBy = "menu", cascade = ALL)
-    private List<Review> reviews = new ArrayList<>();
 
     @Builder
     public Menu(String name, int price, int stockQuantity, MenuType menuType, MenuStatus menuStatus) {
@@ -40,10 +38,6 @@ public class Menu extends BaseTimeEntity {
         this.stockQuantity = stockQuantity;
         this.menuType = menuType;
         this.menuStatus = menuStatus;
-    }
-
-    public void addReview(Review review) {
-        this.reviews.add(review);
     }
 
     public void update(String name, int price, int stockQuantity, MenuType menuType, MenuStatus menuStatus) {

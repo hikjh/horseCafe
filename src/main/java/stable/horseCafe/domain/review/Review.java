@@ -33,7 +33,6 @@ public class Review extends BaseTimeEntity {
     @Builder
     public Review(Menu menu, Member member, String content) {
         this.menu = menu;
-        menu.addReview(this);
         this.member = member;
         this.content = content;
     }
