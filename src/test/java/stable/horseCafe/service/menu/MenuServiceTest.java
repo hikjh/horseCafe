@@ -10,9 +10,6 @@ import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
 import stable.horseCafe.domain.menu.MenuStatus;
 import stable.horseCafe.domain.menu.MenuType;
-import stable.horseCafe.domain.review.Review;
-import stable.horseCafe.domain.review.ReviewRepository;
-import stable.horseCafe.service.member.MemberService;
 import stable.horseCafe.web.dto.menu.MenuResDto;
 import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
 import stable.horseCafe.web.dto.menu.MenuUpdateReqDto;
@@ -27,8 +24,6 @@ class MenuServiceTest {
     MenuService menuService;
     @Autowired
     MenuRepository menuRepository;
-    @Autowired
-    ReviewRepository reviewRepository;
     @Autowired
     MemberRepository memberRepository;
 
@@ -81,7 +76,7 @@ class MenuServiceTest {
     @Test
     void 메뉴_단건조회() {
 
-        Member member = memberRepository.save(Member.builder()
+        memberRepository.save(Member.builder()
                 .name("홍길동").build());
 
 
@@ -94,17 +89,10 @@ class MenuServiceTest {
                 .build();
 
         Long savedId = menuService.registerMenu(dto);
-        Menu menu = menuRepository.findById(savedId).get();
+        MenuResDto resultMenu = menuService.getMenu(savedId);
 
-        Review review = reviewRepository.save(Review.builder()
-                .menu(menu)
-                .member(member)
-                .content("가나다라")
-                .build());
-
-
-        System.out.println("review = " + review);
-        MenuResDto resDto = menuService.getMenu(savedId);
-        System.out.println("resDto = " + resDto.getReviews().get(0));
+        assertEquals(resultMenu.getMenuStatus(), dto.getMenuStatus());
+        assertEquals(resultMenu.getMenuType(), dto.getMenuType());
+        assertEquals(resultMenu.getName(), dto.getName());
     }
 }
