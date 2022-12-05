@@ -2,11 +2,13 @@ package stable.horseCafe.web.dto.menu;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuStatus;
 import stable.horseCafe.domain.menu.MenuType;
 
 @Getter
+@NoArgsConstructor
 public class MenuSaveReqDto {
 
     private String name;
