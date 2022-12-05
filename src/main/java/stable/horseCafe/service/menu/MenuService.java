@@ -42,8 +42,9 @@ public class MenuService {
     }
 
     /**
-     *  메뉴 수정
+     *  메뉴 삭제
      */
+    @Transactional
     public Long deleteMenu(Long menuId) {
         Menu menu = menuRepository.findById(menuId)
                 .orElseThrow(() -> {
