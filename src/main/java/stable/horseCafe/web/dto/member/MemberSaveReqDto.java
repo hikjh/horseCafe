@@ -2,9 +2,11 @@ package stable.horseCafe.web.dto.member;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import stable.horseCafe.domain.member.Member;
 
 @Getter
+@NoArgsConstructor
 public class MemberSaveReqDto {
 
     private String name;
