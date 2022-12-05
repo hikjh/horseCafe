@@ -1,4 +1,4 @@
-package stable.horseCafe.config;
+package stable.horseCafe.config.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
