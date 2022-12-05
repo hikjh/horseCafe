@@ -1,6 +1,5 @@
 package stable.horseCafe.web.dto.review;
 
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.ToString;
 import stable.horseCafe.domain.review.Review;
@@ -17,12 +16,5 @@ public class ReviewResDto {
         this.reviewId = review.getId();
         this.memberName = review.getMember().getName();
         this.content = review.getContent();
-    }
-
-    @QueryProjection
-    public ReviewResDto(Long reviewId, String memberName, String content) {
-        this.reviewId = reviewId;
-        this.memberName = memberName;
-        this.content = content;
     }
 }

@@ -5,14 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import stable.horseCafe.domain.BaseTimeEntity;
-import stable.horseCafe.domain.review.Review;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
 
 @Getter
 @NoArgsConstructor
