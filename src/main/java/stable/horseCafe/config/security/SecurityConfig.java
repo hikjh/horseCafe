@@ -40,7 +40,7 @@ public class SecurityConfig {
             .and()
                 .authorizeRequests()
                 .antMatchers("/h2-console/**", "/stable/v1/signUp", "/stable/v1/login").permitAll()
-                .antMatchers("/stable/v1/**").hasRole("MEMBER")
+                .antMatchers("/stable/v1/menu/**").hasRole("MEMBER")
                 .anyRequest().authenticated()
             .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),UsernamePasswordAuthenticationFilter.class);
