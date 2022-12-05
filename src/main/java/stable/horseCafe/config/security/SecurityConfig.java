@@ -39,8 +39,8 @@ public class SecurityConfig {
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
             .and()
                 .authorizeRequests()
-                .antMatchers("/h2-console/**", "/horse/v1/join", "/horse/v1/login").permitAll()
-                .antMatchers("/horse/v1/**").hasRole("MEMBER")
+                .antMatchers("/h2-console/**", "/stable/v1/signUp", "/stable/v1/login").permitAll()
+                .antMatchers("/stable/v1/**").hasRole("MEMBER")
                 .anyRequest().authenticated()
             .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),UsernamePasswordAuthenticationFilter.class);
