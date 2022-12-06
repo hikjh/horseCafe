@@ -53,6 +53,6 @@ public class MenuController {
      */
     @GetMapping("/stable/v1/menuList")
     public CommonResponse getMenuList(MenuSearchCondition cond) {
-        return ResponseUtil.getSingleResult("유형별 메뉴 목록 조회", menuService.getMenuList(cond));
+        return ResponseUtil.getSingleResult("메뉴 목록 검색", menuService.getMenuList(cond));
     }
 }
