@@ -55,4 +55,11 @@ public class Menu extends BaseTimeEntity {
         }
         this.stockQuantity = restStock;
     }
+
+    /**
+     *  주문 취소 시 재고수량 증가
+     */
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
 }

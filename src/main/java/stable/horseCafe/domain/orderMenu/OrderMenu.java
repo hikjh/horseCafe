@@ -37,11 +37,24 @@ public class OrderMenu extends BaseTimeEntity {
         this.orderMenuPrice = orderMenuPrice;
     }
 
+    /**
+     *  주문
+     */
     public void addOrder(Order order) {
         this.order = order;
         menu.removeStock(count);
     }
 
+    /**
+     *  주문 취소
+     */
+    public void cancel() {
+        menu.addStock(count);
+    }
+
+    /**
+     *  주문건 전체 가격
+     */
     public int getTotalPrice() {
         return orderMenuPrice * count;
     }

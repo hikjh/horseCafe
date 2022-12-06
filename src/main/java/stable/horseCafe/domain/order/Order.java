@@ -46,6 +46,16 @@ public class Order extends BaseTimeEntity {
     }
 
     /**
+     *  주문 취소
+     */
+    public void cancel() {
+        this.orderStatus = OrderStatus.CANCEL;
+        for (OrderMenu orderMenu : orderMenus) {
+            orderMenu.cancel();
+        }
+    }
+
+    /**
      *  전체 주문 가격 조회
      */
     public int getTotalPrice() {
