@@ -1,5 +1,6 @@
 package stable.horseCafe.web.dto.menu;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuStatus;
@@ -22,5 +23,15 @@ public class MenuResDto {
         this.stockQuantity = menu.getStockQuantity();
         this.menuType = menu.getMenuType();
         this.menuStatus = menu.getMenuStatus();
+    }
+
+    @QueryProjection
+    public MenuResDto(Long menuId, String name, int price, int stockQuantity, MenuType menuType, MenuStatus menuStatus) {
+        this.menuId = menuId;
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.menuType = menuType;
+        this.menuStatus = menuStatus;
     }
 }

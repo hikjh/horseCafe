@@ -9,8 +9,10 @@ import stable.horseCafe.web.common.exception.GlobalException;
 import stable.horseCafe.web.common.response.code.ResponseCode;
 import stable.horseCafe.web.dto.menu.MenuResDto;
 import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
+import stable.horseCafe.web.dto.menu.MenuSearchCondition;
 import stable.horseCafe.web.dto.menu.MenuUpdateReqDto;
 
+import java.util.List;
 
 
 @Service
@@ -64,5 +66,12 @@ public class MenuService {
                     throw new GlobalException(ResponseCode.BAD_REQUEST, "존재하지 않는 메뉴입니다.");
                 });
         return new MenuResDto(menu);
+    }
+
+    /**
+     *  유형별 메뉴 목록 조회
+     */
+    public List<MenuResDto> getMenuList(MenuSearchCondition cond) {
+        return menuRepository.getMenuList(cond);
     }
 }
