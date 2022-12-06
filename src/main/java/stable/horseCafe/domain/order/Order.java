@@ -44,4 +44,13 @@ public class Order extends BaseTimeEntity {
         }
         this.orderStatus = OrderStatus.ORDER;
     }
+
+    /**
+     *  전체 주문 가격 조회
+     */
+    public int getTotalPrice() {
+        return orderMenus.stream()
+                .mapToInt(OrderMenu::getTotalPrice)
+                .sum();
+    }
 }

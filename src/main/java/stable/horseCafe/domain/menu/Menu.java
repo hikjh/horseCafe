@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import stable.horseCafe.domain.BaseTimeEntity;
+import stable.horseCafe.web.common.exception.GlobalException;
+import stable.horseCafe.web.common.response.code.ResponseCode;
 
 import javax.persistence.*;
 
@@ -41,5 +43,16 @@ public class Menu extends BaseTimeEntity {
         this.stockQuantity = stockQuantity;
         this.menuType = menuType;
         this.menuStatus = menuStatus;
+    }
+
+    /**
+     *  주문 시 재고수량 감소
+     */
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity -= quantity;
+        if (restStock < 0) {
+            throw new GlobalException(ResponseCode.BAD_REQUEST, "남은 재고가 없습니다.");
+        }
+        this.stockQuantity = restStock;
     }
 }

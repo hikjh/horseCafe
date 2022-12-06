@@ -39,5 +39,10 @@ public class OrderMenu extends BaseTimeEntity {
 
     public void addOrder(Order order) {
         this.order = order;
+        menu.removeStock(count);
+    }
+
+    public int getTotalPrice() {
+        return orderMenuPrice * count;
     }
 }
