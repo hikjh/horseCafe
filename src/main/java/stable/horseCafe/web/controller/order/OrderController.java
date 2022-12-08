@@ -32,4 +32,12 @@ public class OrderController {
     public CommonResponse cancelOrder(@PathVariable Long orderId) {
         return ResponseUtil.getSingleResult("주문 취소", orderService.cancelOrder(orderId));
     }
+
+    /**
+     *  주문 목록 조회
+     */
+    @GetMapping("/stable/v1/orderList")
+    public CommonResponse getOrderList(@LoginMember Member member) {
+        return ResponseUtil.getSingleResult("주문 목록 조회", orderService.getOrderList(member));
+    }
 }

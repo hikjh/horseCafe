@@ -11,6 +11,7 @@ import stable.horseCafe.domain.order.OrderRepository;
 import stable.horseCafe.domain.orderMenu.OrderMenu;
 import stable.horseCafe.web.common.exception.GlobalException;
 import stable.horseCafe.web.common.response.code.ResponseCode;
+import stable.horseCafe.web.dto.order.OrderResDto;
 import stable.horseCafe.web.dto.order.OrderSaveReqDto;
 
 import java.util.ArrayList;
@@ -67,5 +68,9 @@ public class OrderService {
 
         order.cancel();
         return orderId;
+    }
+
+    public List<OrderResDto> getOrderList(Member member) {
+        return orderRepository.findOrderList(member.getEmail());
     }
 }
