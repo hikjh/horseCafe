@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stable.horseCafe.domain.member.Member;
-import stable.horseCafe.domain.member.MemberRepository;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
 import stable.horseCafe.domain.order.Order;
@@ -23,17 +22,13 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final MemberRepository memberRepository;
     private final MenuRepository menuRepository;
 
+    /**
+     *  주문
+     */
     @Transactional
     public Long order(Member member, List<OrderSaveReqDto> dtoList) {
-
-        // 멤버 엔티티 조회
-        memberRepository.findByEmail(member.getEmail())
-                .orElseThrow(() -> {
-                    throw new GlobalException(ResponseCode.BAD_REQUEST, "로그인 후 사용가능합니다.");
-                });
 
         List<Long> menuIds = dtoList.stream()
                 .map(OrderSaveReqDto::getMenuId)
@@ -58,5 +53,19 @@ public class OrderService {
 
         Order order = new Order(member, orderMenuList);
         return orderRepository.save(order).getId();
+    }
+
+    /**
+     *  주문취소
+     */
+    @Transactional
+    public Long cancelOrder(Long orderId) {
+        Order order = orderRepository.findFetchById(orderId)
+                .orElseThrow(() -> {
+                    throw new GlobalException(ResponseCode.BAD_REQUEST, "존재하지 않는 주문입니다.");
+                });
+
+        order.cancel();
+        return orderId;
     }
 }
