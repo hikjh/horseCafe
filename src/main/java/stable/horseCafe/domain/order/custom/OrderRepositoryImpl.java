@@ -1,16 +1,11 @@
 package stable.horseCafe.domain.order.custom;
 
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import stable.horseCafe.domain.member.Member;
-import stable.horseCafe.domain.member.QMember;
-import stable.horseCafe.domain.menu.QMenu;
 import stable.horseCafe.domain.order.Order;
-import stable.horseCafe.domain.order.QOrder;
-import stable.horseCafe.domain.orderMenu.QOrderMenu;
 import stable.horseCafe.web.dto.order.OrderResDto;
 import stable.horseCafe.web.dto.order.QOrderResDto;
+import stable.horseCafe.web.dto.orderMenu.OrderMenuResDto;
 import stable.horseCafe.web.dto.orderMenu.QOrderMenuResDto;
 
 import java.util.List;
@@ -47,7 +42,7 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
     public List<OrderResDto> findOrderList(String email) {
 
         Map<Long, OrderResDto> transform = queryFactory
-                .selectFrom(order)
+                .from(order)
                 .innerJoin(order.member, member)
                 .innerJoin(order.orderMenus, orderMenu)
                 .innerJoin(orderMenu.menu, menu)
@@ -56,7 +51,7 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
                 )
                 .transform(groupBy(order.id).as(new QOrderResDto(
                         order.id,
-                        member.name.as("memberName"),
+                        member.name,
                         order.orderStatus,
                         list(new QOrderMenuResDto(
                                 menu.name,
@@ -67,8 +62,8 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
                         order.createDate
                 )));
 
-        return transform.keySet()
-                .stream().map(transform::get)
+        return transform.keySet().stream()
+                .map(transform::get)
                 .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,5 @@
 package stable.horseCafe.domain.order.custom;
 
-import stable.horseCafe.domain.member.Member;
 import stable.horseCafe.domain.order.Order;
 import stable.horseCafe.web.dto.order.OrderResDto;
 
