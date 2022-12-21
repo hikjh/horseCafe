@@ -8,6 +8,7 @@ import stable.horseCafe.service.order.OrderService;
 import stable.horseCafe.web.common.response.CommonResponse;
 import stable.horseCafe.web.common.util.ResponseUtil;
 import stable.horseCafe.web.dto.order.OrderSaveReqDto;
+import stable.horseCafe.web.dto.order.OrderSearchCondition;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class OrderController {
      *  내 주문 목록 조회
      */
     @GetMapping("/stable/v1/orderList")
-    public CommonResponse getOrderList(@LoginMember Member member) {
-        return ResponseUtil.getSingleResult("내 주문 목록 조회", orderService.getOrderList(member));
+    public CommonResponse getOrderList(@LoginMember Member member, OrderSearchCondition cond) {
+        return ResponseUtil.getSingleResult("내 주문 목록 조회", orderService.getOrderList(member, cond));
     }
 }

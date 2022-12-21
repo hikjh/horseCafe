@@ -14,6 +14,7 @@ import stable.horseCafe.web.common.exception.GlobalException;
 import stable.horseCafe.web.common.response.code.ResponseCode;
 import stable.horseCafe.web.dto.order.OrderResDto;
 import stable.horseCafe.web.dto.order.OrderSaveReqDto;
+import stable.horseCafe.web.dto.order.OrderSearchCondition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class OrderService {
     /**
      *  내 주문 목록 조회
      */
-    public List<OrderResDto> getOrderList(Member member) {
-        return orderRepository.findOrderList(member.getEmail());
+    public List<OrderResDto> getOrderList(Member member, OrderSearchCondition cond) {
+        return orderRepository.findOrderList(member.getEmail(), cond);
     }
 }

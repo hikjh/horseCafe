@@ -1,9 +1,13 @@
 package stable.horseCafe.domain.order.custom;
 
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import stable.horseCafe.domain.order.Order;
+import stable.horseCafe.domain.order.OrderStatus;
 import stable.horseCafe.web.dto.order.OrderResDto;
+import stable.horseCafe.web.dto.order.OrderSearchCondition;
 import stable.horseCafe.web.dto.order.QOrderResDto;
 import stable.horseCafe.web.dto.orderMenu.OrderMenuResDto;
 import stable.horseCafe.web.dto.orderMenu.QOrderMenuResDto;
@@ -39,7 +43,7 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
     }
 
     @Override
-    public List<OrderResDto> findOrderList(String email) {
+    public List<OrderResDto> findOrderList(String email, OrderSearchCondition cond) {
 
         Map<Long, OrderResDto> transform = queryFactory
                 .from(order)
@@ -47,7 +51,8 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
                 .innerJoin(order.orderMenus, orderMenu)
                 .innerJoin(orderMenu.menu, menu)
                 .where(
-                        member.email.eq(email)
+                        member.email.eq(email),
+                        orderStatusEq(cond.getOrderStatus())
                 )
                 .transform(groupBy(order.id).as(new QOrderResDto(
                         order.id,
@@ -66,5 +71,9 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
         return transform.keySet().stream()
                 .map(transform::get)
                 .collect(Collectors.toList());
+    }
+
+    private BooleanExpression orderStatusEq(OrderStatus orderStatus) {
+        return orderStatus != null ? order.orderStatus.eq(orderStatus) : null;
     }
 }
