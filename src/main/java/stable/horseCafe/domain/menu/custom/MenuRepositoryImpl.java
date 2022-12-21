@@ -33,10 +33,15 @@ public class MenuRepositoryImpl implements CustomMenuRepository {
                 ))
                 .from(menu)
                 .where(
+                        menuNameContain(cond.getMenuName()),
                         menuTypeEq(cond.getMenuType()),     // COFFEE, TEA, ADE
                         menuStatus(cond.getMenuStatus())    // ICE, HOT
                 )
                 .fetch();
+    }
+
+    private BooleanExpression menuNameContain(String menuName) {
+        return menuName != null ? menu.name.contains(menuName) : null;
     }
 
     private BooleanExpression menuTypeEq(MenuType menuType) {

@@ -7,10 +7,13 @@ import stable.horseCafe.domain.menu.MenuType;
 @Getter
 public class MenuSearchCondition {
 
+    private String menuName;
     private MenuType menuType;
     private MenuStatus menuStatus;
 
-    public MenuSearchCondition(MenuType menuType, MenuStatus menuStatus) {
+
+    public MenuSearchCondition(String menuName, MenuType menuType, MenuStatus menuStatus) {
+        this.menuName = menuName;
         this.menuType = menuType;
         this.menuStatus = menuStatus;
     }
