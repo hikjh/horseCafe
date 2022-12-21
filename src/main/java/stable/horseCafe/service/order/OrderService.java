@@ -67,6 +67,9 @@ public class OrderService {
         return orderId;
     }
 
+    /**
+     *  내 주문 목록 조회
+     */
     public List<OrderResDto> getOrderList(Member member) {
         return orderRepository.findOrderList(member.getEmail());
     }

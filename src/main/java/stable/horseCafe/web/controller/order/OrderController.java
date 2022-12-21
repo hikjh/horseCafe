@@ -34,10 +34,10 @@ public class OrderController {
     }
 
     /**
-     *  주문 목록 조회
+     *  내 주문 목록 조회
      */
     @GetMapping("/stable/v1/orderList")
     public CommonResponse getOrderList(@LoginMember Member member) {
-        return ResponseUtil.getSingleResult("주문 목록 조회", orderService.getOrderList(member));
+        return ResponseUtil.getSingleResult("내 주문 목록 조회", orderService.getOrderList(member));
     }
 }
