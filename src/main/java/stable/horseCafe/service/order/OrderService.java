@@ -9,6 +9,7 @@ import stable.horseCafe.domain.menu.MenuRepository;
 import stable.horseCafe.domain.order.Order;
 import stable.horseCafe.domain.order.OrderRepository;
 import stable.horseCafe.domain.orderMenu.OrderMenu;
+import stable.horseCafe.domain.orderMenu.OrderMenuRepository;
 import stable.horseCafe.web.common.exception.GlobalException;
 import stable.horseCafe.web.common.response.code.ResponseCode;
 import stable.horseCafe.web.dto.order.OrderResDto;
@@ -24,6 +25,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final MenuRepository menuRepository;
+    private final OrderMenuRepository orderMenuRepository;
 
     /**
      *  주문
@@ -37,11 +39,6 @@ public class OrderService {
 
         List<Menu> menuList = menuRepository.findAllById(menuIds);
 
-        /*
-            insert N+1 발생
-            - 주문 저장 1회
-            - 주문메뉴 저장 2회
-         */
         List<OrderMenu> orderMenuList = new ArrayList<>();
         for (Menu menu : menuList) {
             for (OrderSaveReqDto dto : dtoList) {
