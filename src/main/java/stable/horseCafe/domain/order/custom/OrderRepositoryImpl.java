@@ -76,4 +76,16 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
     private BooleanExpression orderStatusEq(OrderStatus orderStatus) {
         return orderStatus != null ? order.orderStatus.eq(orderStatus) : null;
     }
+
+    @Override
+    public OrderStatus findOrderStatus(Long memberId, Long menuId) {
+        return queryFactory
+                .select(order.orderStatus)
+                .from(order)
+                .join(order.orderMenus, orderMenu)
+                .where(
+                        order.member.id.eq(memberId),
+                        orderMenu.menu.id.eq(menuId))
+                .fetchOne();
+    }
 }
