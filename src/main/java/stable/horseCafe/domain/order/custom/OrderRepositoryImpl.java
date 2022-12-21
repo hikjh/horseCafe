@@ -59,7 +59,8 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
                                 menu.price,
                                 menu.menuStatus
                         )),
-                        order.createDate
+                        order.createDate,
+                        order.totalPrice
                 )));
 
         return transform.keySet().stream()
