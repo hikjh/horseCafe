@@ -23,12 +23,13 @@ public class OrderResDto {
     private int totalPrice;
 
     @QueryProjection
-    public OrderResDto(Long orderId, String memberName, OrderStatus orderStatus, List<OrderMenuResDto> orderMenus, LocalDateTime orderTime) {
+    public OrderResDto(Long orderId, String memberName, OrderStatus orderStatus, List<OrderMenuResDto> orderMenus, LocalDateTime orderTime, int totalPrice) {
         this.orderId = orderId;
         this.memberName = memberName;
         this.orderStatus = orderStatus;
         this.orderMenus = orderMenus;
         this.orderTime = orderTime;
+        this.totalPrice = totalPrice;
     }
 
     @QueryProjection

@@ -35,6 +35,8 @@ public class Order extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    private int totalPrice;
+
     @Builder
     public Order(Member member, List<OrderMenu> orderMenus) {
         this.member = member;
@@ -43,6 +45,7 @@ public class Order extends BaseTimeEntity {
             orderMenu.addOrder(this);
         }
         this.orderStatus = OrderStatus.ORDER;
+        this.totalPrice = this.getTotalPrice();
     }
 
     /**
