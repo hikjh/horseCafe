@@ -25,16 +25,13 @@ public class Order extends BaseTimeEntity {
     @Id @GeneratedValue
     @Column(name = "order_id")
     private Long id;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
     @OneToMany(mappedBy = "order", cascade = ALL)
     private List<OrderMenu> orderMenus = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
     private int totalPrice;
 
     @Builder
