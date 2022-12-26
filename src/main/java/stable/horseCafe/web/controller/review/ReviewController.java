@@ -1,10 +1,7 @@
 package stable.horseCafe.web.controller.review;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import stable.horseCafe.config.security.LoginMember;
 import stable.horseCafe.domain.member.Member;
 import stable.horseCafe.service.review.ReviewService;
@@ -18,8 +15,19 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    /**
+     *  리뷰 등록
+     */
     @PostMapping("/stable/v1/menu/{menuId}/review")
     public CommonResponse registerReview(@LoginMember Member member, @PathVariable Long menuId, @RequestBody ReviewSaveReqDto dto) {
         return ResponseUtil.getSingleResult("리뷰 등록", reviewService.registerReview(member, menuId, dto));
+    }
+
+    /**
+     *  내 리뷰 목록 조회
+     */
+    @GetMapping("/stable/v1/reviewList")
+    public CommonResponse getMyReviewList(@LoginMember Member member) {
+        return ResponseUtil.getSingleResult("내 리뷰 목록 조회", reviewService.getMyReviewList(member));
     }
 }
