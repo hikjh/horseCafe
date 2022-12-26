@@ -71,7 +71,7 @@ public class OrderService {
     /**
      *  내 주문 목록 조회
      */
-    public List<OrderResDto> getOrderList(Member member, OrderSearchCondition cond) {
+    public List<OrderResDto> getMyOrderList(Member member, OrderSearchCondition cond) {
         return orderRepository.findOrderList(member.getEmail(), cond);
     }
 }
