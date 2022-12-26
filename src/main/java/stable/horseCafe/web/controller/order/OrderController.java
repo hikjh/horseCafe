@@ -27,7 +27,7 @@ public class OrderController {
     }
 
     /**
-     *  주문취소
+     *  주문 취소
      */
     @GetMapping("/stable/v1/cancelOrder/{orderId}")
     public CommonResponse cancelOrder(@PathVariable Long orderId) {
@@ -38,7 +38,7 @@ public class OrderController {
      *  내 주문 목록 조회
      */
     @GetMapping("/stable/v1/orderList")
-    public CommonResponse getOrderList(@LoginMember Member member, OrderSearchCondition cond) {
-        return ResponseUtil.getSingleResult("내 주문 목록 조회", orderService.getOrderList(member, cond));
+    public CommonResponse getMyOrderList(@LoginMember Member member, OrderSearchCondition cond) {
+        return ResponseUtil.getSingleResult("내 주문 목록 조회", orderService.getMyOrderList(member, cond));
     }
 }

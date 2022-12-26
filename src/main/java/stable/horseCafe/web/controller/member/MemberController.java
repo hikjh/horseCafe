@@ -17,7 +17,7 @@ public class MemberController {
     private final MemberService memberService;
 
     /**
-     *  회원가입
+     *  회원 가입
      */
     @PostMapping("/stable/v1/signUp")
     public CommonResponse singUp(@RequestBody MemberSaveReqDto dto) {
