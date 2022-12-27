@@ -2,7 +2,6 @@ package stable.horseCafe.domain.review.custom;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import stable.horseCafe.domain.review.QReview;
 import stable.horseCafe.web.dto.review.QReviewResDto;
 import stable.horseCafe.web.dto.review.ReviewResDto;
 

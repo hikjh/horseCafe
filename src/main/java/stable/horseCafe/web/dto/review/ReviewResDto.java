@@ -3,7 +3,6 @@ package stable.horseCafe.web.dto.review;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.ToString;
-import stable.horseCafe.domain.review.Review;
 
 @Getter
 @ToString
