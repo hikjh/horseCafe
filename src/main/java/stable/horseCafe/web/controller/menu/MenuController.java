@@ -9,6 +9,8 @@ import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
 import stable.horseCafe.web.dto.menu.MenuSearchCondition;
 import stable.horseCafe.web.dto.menu.MenuUpdateReqDto;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class MenuController {
@@ -19,7 +21,7 @@ public class MenuController {
      *  메뉴 등록
      */
     @PostMapping("/stable/v1/menu")
-    public CommonResponse registerMenu(@RequestBody MenuSaveReqDto dto) {
+    public CommonResponse registerMenu(@RequestBody @Valid MenuSaveReqDto dto) {
         return ResponseUtil.getSingleResult("메뉴 등록", menuService.registerMenu(dto));
     }
 

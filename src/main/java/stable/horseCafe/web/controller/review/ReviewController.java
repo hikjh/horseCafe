@@ -9,6 +9,8 @@ import stable.horseCafe.web.common.response.CommonResponse;
 import stable.horseCafe.web.common.util.ResponseUtil;
 import stable.horseCafe.web.dto.review.ReviewSaveReqDto;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class ReviewController {
@@ -19,7 +21,7 @@ public class ReviewController {
      *  리뷰 등록
      */
     @PostMapping("/stable/v1/menu/{menuId}/review")
-    public CommonResponse registerReview(@LoginMember Member member, @PathVariable Long menuId, @RequestBody ReviewSaveReqDto dto) {
+    public CommonResponse registerReview(@LoginMember Member member, @PathVariable Long menuId, @RequestBody @Valid ReviewSaveReqDto dto) {
         return ResponseUtil.getSingleResult("리뷰 등록", reviewService.registerReview(member, menuId, dto));
     }
 

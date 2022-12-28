@@ -10,6 +10,7 @@ import stable.horseCafe.web.common.util.ResponseUtil;
 import stable.horseCafe.web.dto.order.OrderSaveReqDto;
 import stable.horseCafe.web.dto.order.OrderSearchCondition;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class OrderController {
      *  주문
      */
     @PostMapping("/stable/v1/order")
-    public CommonResponse order(@LoginMember Member member, @RequestBody List<OrderSaveReqDto> dtoList) {
+    public CommonResponse order(@LoginMember Member member, @RequestBody @Valid List<OrderSaveReqDto> dtoList) {
         return ResponseUtil.getSingleResult("주문", orderService.order(member, dtoList));
     }
 
