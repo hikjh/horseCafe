@@ -40,10 +40,8 @@ public class SecurityConfig {
             .and()
                 .authorizeRequests()
                 .antMatchers("/h2-console/**", "/stable/v1/signUp", "/stable/v1/login", "/stable/v1/menuList").permitAll()
-                .antMatchers("/stable/v1/menu/**").hasRole("MEMBER")
-                .antMatchers("/stable/v1/order/**").hasRole("MEMBER")
-                .antMatchers("/stable/v1/cancelOrder/**").hasRole("MEMBER")
-                .antMatchers("/stable/v1/orderList/**").hasRole("MEMBER")
+                .antMatchers("/stable/v1/menu/**").hasRole("MEMBER") //나중에 ADMIN
+                .antMatchers("/stable/v1/**").hasRole("MEMBER")
                 .anyRequest().authenticated()
             .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider),UsernamePasswordAuthenticationFilter.class);
