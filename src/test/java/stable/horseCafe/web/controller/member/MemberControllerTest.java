@@ -71,6 +71,7 @@ class MemberControllerTest {
         mockMvc.perform(post("/stable/v1/signUp")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(reqData))
+                .andExpect(jsonPath("$.status").value(422))
                 .andExpect(jsonPath("$.message").value("이메일은 필수값입니다."))
                 .andDo(MockMvcResultHandlers.print());
     }
