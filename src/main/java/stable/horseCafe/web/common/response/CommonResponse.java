@@ -6,8 +6,8 @@ import stable.horseCafe.web.common.response.code.ResponseCode;
 @Getter
 public class CommonResponse {
 
-    int status;
-    String message;
+    private final int status;
+    private final String message;
 
     public CommonResponse(ResponseCode code, String message) {
         this.status = code.getStatus();
