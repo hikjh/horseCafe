@@ -21,6 +21,6 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CommonResponse valid(MethodArgumentNotValidException manve) {
-        return ResponseUtil.failResponse(ResponseCode.BAD_REQUEST, manve.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        return ResponseUtil.failResponse(ResponseCode.UNPROCESSABLE_ENTITY, manve.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
 }
