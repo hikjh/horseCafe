@@ -1,5 +1,7 @@
 package stable.horseCafe.web.controller.member;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
+import stable.horseCafe.domain.member.MemberRepository;
+import stable.horseCafe.web.dto.member.MemberLoginReqDto;
+import stable.horseCafe.web.dto.member.MemberSaveReqDto;
 
+import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -26,68 +33,67 @@ class MemberControllerTest {
      */
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @BeforeEach
+    void clean() {
+        memberRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("회원가입")
     void 회원가입() throws Exception {
-        /*
-            [
-               {
-                    "id": 1,
-                    "username": "Kyeongho Yoo",
-                    "address": {
-                        "city": "서울",
-                        "street": "오솔길",
-                        "zipcode": "123-123"
-                    }
-                }
-            ]
-             String expectByUsername = "$.[?(@.username == '%s')]";
-             String addressByCity = "$..address[?(@.city == '%s')]";
-         */
-        String reqData = "{\n" +
-                "    \"name\" : \"홍길동\",\n" +
-                "    \"email\" : \"hong@naver.com\",\n" +
-                "    \"password\" : \"1234\"\n" +
-                "}";
+
+        MemberSaveReqDto reqDto = MemberSaveReqDto.builder()
+                .name("홍길동")
+                .email("hong@naver.com")
+                .password("1234").build();
+
+        String json = objectMapper.writeValueAsString(reqDto);
 
         mockMvc.perform(post("/stable/v1/signUp")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(reqData))
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
                 .andExpect(jsonPath("$.message").value("회원가입"))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Test
     @DisplayName("회원가입 필드값 유효성 검사")
     void 회원가입_필드값_유효성검사() throws Exception {
 
-        String reqData = "{\n" +
-                "    \"name\" : \"홍길동\",\n" +
-                "    \"email\" : \"\",\n" +
-                "    \"password\" : \"1234\"\n" +
-                "}";
+        MemberSaveReqDto reqDto = MemberSaveReqDto.builder()
+                .name("홍길동")
+                .email("")
+                .password("1234").build();
+
+        String json = objectMapper.writeValueAsString(reqDto);
 
         mockMvc.perform(post("/stable/v1/signUp")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(reqData))
+                .contentType(APPLICATION_JSON)
+                .content(json))
                 .andExpect(jsonPath("$.status").value(422))
                 .andExpect(jsonPath("$.message").value("이메일은 필수값입니다."))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 
     @Test
+    @DisplayName("로그인")
     void 로그인() throws Exception {
         회원가입();
-        String reqData = "{\n" +
-                "    \"email\" : \"hong@naver.com\",\n" +
-                "    \"password\" : \"1234\"\n" +
-                "}";
+        MemberLoginReqDto reqDto = MemberLoginReqDto.builder()
+                .email("hong@naver.com")
+                .password("1234").build();
+
+        String json = objectMapper.writeValueAsString(reqDto);
 
         mockMvc.perform(post("/stable/v1/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(reqData))
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
                 .andExpect(jsonPath("$.message").value("로그인"))
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(print());
     }
 }

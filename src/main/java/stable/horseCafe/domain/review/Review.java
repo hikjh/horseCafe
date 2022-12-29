@@ -28,6 +28,7 @@ public class Review extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+    @Lob
     private String content;
 
     @Builder
