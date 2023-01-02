@@ -29,7 +29,7 @@ public class MenuController {
      *  메뉴 수정
      */
     @PutMapping("/stable/v1/menu/{menuId}")
-    public CommonResponse editMenu(@PathVariable Long menuId, @RequestBody MenuUpdateReqDto dto) {
+    public CommonResponse editMenu(@PathVariable Long menuId, @RequestBody @Valid MenuUpdateReqDto dto) {
         return ResponseUtil.getSingleResult("메뉴 수정", menuService.editMenu(menuId, dto));
     }
 
