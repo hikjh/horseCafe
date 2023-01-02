@@ -7,9 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import stable.horseCafe.domain.member.MemberRepository;
 import stable.horseCafe.web.dto.member.MemberLoginReqDto;
@@ -21,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 class MemberControllerTest {
@@ -45,15 +44,13 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("회원가입")
-    void 회원가입() throws Exception {
-
+    void singUp() throws Exception {
         MemberSaveReqDto reqDto = MemberSaveReqDto.builder()
                 .name("홍길동")
                 .email("hong@naver.com")
                 .password("1234").build();
 
         String json = objectMapper.writeValueAsString(reqDto);
-
         mockMvc.perform(post("/stable/v1/signUp")
                         .contentType(APPLICATION_JSON)
                         .content(json))
@@ -63,15 +60,13 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("회원가입 필드값 유효성 검사")
-    void 회원가입_필드값_유효성검사() throws Exception {
-
+    void signUp_validation() throws Exception {
         MemberSaveReqDto reqDto = MemberSaveReqDto.builder()
                 .name("홍길동")
                 .email("")
                 .password("1234").build();
 
         String json = objectMapper.writeValueAsString(reqDto);
-
         mockMvc.perform(post("/stable/v1/signUp")
                 .contentType(APPLICATION_JSON)
                 .content(json))
@@ -82,14 +77,13 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("로그인")
-    void 로그인() throws Exception {
-        회원가입();
+    void login() throws Exception {
+        singUp();
         MemberLoginReqDto reqDto = MemberLoginReqDto.builder()
                 .email("hong@naver.com")
                 .password("1234").build();
 
         String json = objectMapper.writeValueAsString(reqDto);
-
         mockMvc.perform(post("/stable/v1/login")
                         .contentType(APPLICATION_JSON)
                         .content(json))
