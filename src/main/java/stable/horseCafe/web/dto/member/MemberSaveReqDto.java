@@ -34,4 +34,8 @@ public class MemberSaveReqDto {
                 .password(password)
                 .build();
     }
+
+    public void updatePassword(String encodePassword) {
+        this.password = encodePassword;
+    }
 }

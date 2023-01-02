@@ -34,16 +34,10 @@ public class MemberService {
                 });
 
         // 비밀번호 암호화
-        dto = getEncodePassword(dto);
-        return memberRepository.save(dto.toEntity()).getId();
-    }
-
-    /**
-     *  비밀번호 암호화
-     */
-    private MemberSaveReqDto getEncodePassword(MemberSaveReqDto dto) {
         String encodePassword = passwordEncoder.encode(dto.getPassword());
-        return new MemberSaveReqDto(dto.getName(), dto.getEmail(), encodePassword);
+        dto.updatePassword(encodePassword);
+
+        return memberRepository.save(dto.toEntity()).getId();
     }
 
     /**
