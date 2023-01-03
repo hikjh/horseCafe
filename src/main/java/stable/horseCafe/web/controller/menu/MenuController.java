@@ -37,7 +37,7 @@ public class MenuController {
      *  메뉴 삭제
      */
     @DeleteMapping("/stable/v1/menu/{menuId}")
-    public CommonResponse editMenu(@PathVariable Long menuId) {
+    public CommonResponse deleteMenu(@PathVariable Long menuId) {
         return ResponseUtil.getSingleResult("메뉴 삭제", menuService.deleteMenu(menuId));
     }
 
