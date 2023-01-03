@@ -57,6 +57,8 @@ public class MemberService {
 
         // AccessToken 생성
         String accessToken = jwtProvider.createToken(member);
-        return new MemberLoginResDto(accessToken);
+        return MemberLoginResDto.builder()
+                .accessToken(accessToken)
+                .build();
     }
 }

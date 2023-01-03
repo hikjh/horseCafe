@@ -65,7 +65,9 @@ public class MenuService {
                 .orElseThrow(() -> {
                     throw new GlobalException(ResponseCode.BAD_REQUEST, "존재하지 않는 메뉴입니다.");
                 });
-        return new MenuResDto(menu);
+        return MenuResDto.builder()
+                .menu(menu)
+                .build();
     }
 
     /**
