@@ -53,7 +53,7 @@ tasks.named('test') {
 }
 
 //querydsl 추가 시작
-def querydslDir = "$buildDir/generated/data-jpa"
+def querydslDir = "$buildDir/generated/horseCafe"
 querydsl {
 	jpa = true
 	querydslSourcesDir = querydslDir
