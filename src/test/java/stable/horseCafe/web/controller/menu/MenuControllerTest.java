@@ -11,8 +11,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
-import stable.horseCafe.domain.menu.MenuStatus;
-import stable.horseCafe.domain.menu.MenuType;
 import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
 import stable.horseCafe.web.dto.menu.MenuSearchCondition;
 import stable.horseCafe.web.dto.menu.MenuUpdateReqDto;
@@ -25,6 +23,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static stable.horseCafe.domain.menu.MenuStatus.HOT;
+import static stable.horseCafe.domain.menu.MenuStatus.ICE;
+import static stable.horseCafe.domain.menu.MenuType.COFFEE;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,8 +52,8 @@ class MenuControllerTest {
                 .name("아메리카노")
                 .price(4500)
                 .stockQuantity(50)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.HOT)
+                .menuType(COFFEE)
+                .menuStatus(HOT)
                 .build();
 
         String json = objectMapper.writeValueAsString(reqDto);
@@ -75,8 +76,8 @@ class MenuControllerTest {
                 .name("아이스 아메리카노")
                 .price(4800)
                 .stockQuantity(70)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.ICE)
+                .menuType(COFFEE)
+                .menuStatus(ICE)
                 .build();
 
         String json = objectMapper.writeValueAsString(reqDto);
@@ -127,10 +128,9 @@ class MenuControllerTest {
         MenuSearchCondition cond = MenuSearchCondition.builder()
                 .menuName(null)
                 .menuType(null)
-                .menuStatus(MenuStatus.ICE)
+                .menuStatus(ICE)
                 .build();
 
-        System.out.println("### cond = " + cond.getMenuStatus());
         // expected
         mockMvc.perform(get("/stable/v1/menuList")
                         .contentType(APPLICATION_JSON)
@@ -147,8 +147,8 @@ class MenuControllerTest {
                 .name("아이스 아메리카노")
                 .price(4800)
                 .stockQuantity(50)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.ICE)
+                .menuType(COFFEE)
+                .menuStatus(ICE)
                 .build();
     }
 
@@ -161,16 +161,16 @@ class MenuControllerTest {
                         .name("아이스 아메리카노"+i)
                         .price(4800)
                         .stockQuantity(50)
-                        .menuType(MenuType.COFFEE)
-                        .menuStatus(MenuStatus.ICE)
+                        .menuType(COFFEE)
+                        .menuStatus(ICE)
                         .build();
             } else {
                 menu = Menu.builder()
                         .name("아메리카노"+i)
                         .price(4500)
                         .stockQuantity(50)
-                        .menuType(MenuType.COFFEE)
-                        .menuStatus(MenuStatus.HOT)
+                        .menuType(COFFEE)
+                        .menuStatus(HOT)
                         .build();
             }
             menuList.add(menu);

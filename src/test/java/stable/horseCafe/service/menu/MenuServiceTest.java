@@ -6,21 +6,23 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import stable.horseCafe.domain.member.Member;
 import stable.horseCafe.domain.member.MemberRepository;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
-import stable.horseCafe.domain.menu.MenuStatus;
-import stable.horseCafe.domain.menu.MenuType;
 import stable.horseCafe.web.dto.menu.MenuResDto;
 import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
 import stable.horseCafe.web.dto.menu.MenuSearchCondition;
 import stable.horseCafe.web.dto.menu.MenuUpdateReqDto;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static stable.horseCafe.domain.menu.MenuStatus.HOT;
+import static stable.horseCafe.domain.menu.MenuStatus.ICE;
+import static stable.horseCafe.domain.menu.MenuType.COFFEE;
 
 
 @SpringBootTest
@@ -47,8 +49,8 @@ class MenuServiceTest {
                 .name("아메리카노")
                 .price(4500)
                 .stockQuantity(50)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.ICE)
+                .menuType(COFFEE)
+                .menuStatus(ICE)
                 .build();
 
         // when
@@ -71,8 +73,8 @@ class MenuServiceTest {
                 .name("아이스 아메리카노")
                 .price(5000)
                 .stockQuantity(50)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.ICE)
+                .menuType(COFFEE)
+                .menuStatus(ICE)
                 .build();
         menuRepository.save(menu);
 
@@ -82,8 +84,8 @@ class MenuServiceTest {
                 .name("아메리카노")
                 .price(4500)
                 .stockQuantity(45)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.HOT)
+                .menuType(COFFEE)
+                .menuStatus(HOT)
                 .build();
         menuService.editMenu(menu.getId(), reqDto);
 
@@ -92,8 +94,8 @@ class MenuServiceTest {
         assertEquals("아메리카노", menu.getName());
         assertEquals(4500, menu.getPrice());
         assertEquals(45, menu.getStockQuantity());
-        assertEquals(MenuType.COFFEE, menu.getMenuType());
-        assertEquals(MenuStatus.HOT, menu.getMenuStatus());
+        assertEquals(COFFEE, menu.getMenuType());
+        assertEquals(HOT, menu.getMenuStatus());
     }
 
     @Test
@@ -104,8 +106,8 @@ class MenuServiceTest {
                 .name("아이스 아메리카노")
                 .price(5000)
                 .stockQuantity(50)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.ICE)
+                .menuType(COFFEE)
+                .menuStatus(ICE)
                 .build();
 
         menuRepository.save(menu);
@@ -125,8 +127,8 @@ class MenuServiceTest {
                 .name("아이스 아메리카노")
                 .price(5000)
                 .stockQuantity(50)
-                .menuType(MenuType.COFFEE)
-                .menuStatus(MenuStatus.ICE)
+                .menuType(COFFEE)
+                .menuStatus(ICE)
                 .build();
         menuRepository.save(menu);
 
@@ -137,8 +139,8 @@ class MenuServiceTest {
         assertNotNull(resultMenu);
         assertEquals("아이스 아메리카노", resultMenu.getName());
         assertEquals(5000, resultMenu.getPrice());
-        assertEquals(MenuType.COFFEE, resultMenu.getMenuType());
-        assertEquals(MenuStatus.ICE, resultMenu.getMenuStatus());
+        assertEquals(COFFEE, resultMenu.getMenuType());
+        assertEquals(ICE, resultMenu.getMenuStatus());
     }
 
 
@@ -146,47 +148,32 @@ class MenuServiceTest {
     @DisplayName("메뉴 목록 검색 조회 - 전체, 메뉴 유형, 메뉴 상태")
     void getMenuList() {
         // given
-        List<Menu> menuList = saveMenuList();// 메뉴 10개 생성 - 5개: ICE, 5개: HOT
-        menuRepository.saveAll(menuList);
-
+        saveMenuList();// 메뉴 10개 생성 - 5개: ICE, 5개: HOT
         MenuSearchCondition condition = MenuSearchCondition.builder()
                 .menuName(null)
                 .menuType(null)
-                .menuStatus(MenuStatus.HOT)
+                .menuStatus(HOT)
                 .build();
-        
+
         // when
         List<MenuResDto> resultMenuList = menuService.getMenuList(condition);
 
         // then
-        assertEquals(5, resultMenuList.size());
-        assertEquals(MenuStatus.HOT, resultMenuList.get(0).getMenuStatus());
+        assertEquals(10, resultMenuList.size());
+        assertEquals(HOT, resultMenuList.get(0).getMenuStatus());
     }
 
-    private List<Menu> saveMenuList() {
-        List<Menu> menuList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Menu menu;
-            if (i % 2 == 0) {
-                menu = Menu.builder()
-                        .name("아이스 아메리카노" + i)
-                        .price(5000)
+    void saveMenuList() {
+        List<Menu> menuList = IntStream.range(0, 10)
+                .mapToObj(i -> Menu.builder()
+                        .name("아메리카노 "+i)
+                        .price(4500)
                         .stockQuantity(50)
-                        .menuType(MenuType.COFFEE)
-                        .menuStatus(MenuStatus.HOT)
-                        .build();
-            } else {
-                menu = Menu.builder()
-                        .name("아이스 아메리카노" + i)
-                        .price(5000)
-                        .stockQuantity(50)
-                        .menuType(MenuType.COFFEE)
-                        .menuStatus(MenuStatus.ICE)
-                        .build();
-            }
-            menuList.add(menu);
-        }
+                        .menuType(COFFEE)
+                        .menuStatus(HOT)
+                        .build())
+                .collect(Collectors.toList());
 
-        return menuList;
+        menuRepository.saveAll(menuList);
     }
 }
