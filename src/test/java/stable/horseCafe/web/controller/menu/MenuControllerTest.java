@@ -1,16 +1,16 @@
 package stable.horseCafe.web.controller.menu;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
+import stable.horseCafe.domain.menu.MenuStatus;
 import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
 import stable.horseCafe.web.dto.menu.MenuSearchCondition;
 import stable.horseCafe.web.dto.menu.MenuUpdateReqDto;
@@ -29,6 +29,8 @@ import static stable.horseCafe.domain.menu.MenuType.COFFEE;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
 class MenuControllerTest {
 
     @Autowired
@@ -115,64 +117,83 @@ class MenuControllerTest {
         mockMvc.perform(get("/stable/v1/menu/{menuId}", menu.getId())
                         .contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value("메뉴 단건 조회"))
-                .andExpect(jsonPath("$.data.name").value("아메리카노"))
+                .andExpect(jsonPath("$.data.name").value("아이스 아메리카노"))
+                .andExpect(jsonPath("$.data.price").value(4800))
+                .andExpect(jsonPath("$.data.menuType").value(COFFEE.toString()))
                 .andDo(print());
     }
 
     @Test
     @WithMockUser(roles = "MEMBER")
     @DisplayName("메뉴 목록 조회")
+    @Order(1)
     void getMenuList() throws Exception {
+        /**
+         *  total Menu = 20개,
+         *  menuType = ICE / HOT,
+         *  - HOT menu = 10개 (홀수),
+         *  - ICE menu = 10개 (짝수),
+         *
+         *  default page = 1
+         *  default size = 5
+         *
+         *  test -> HOT menu, page = 2, size = 5, DESC id값
+         */
         // given
-        saveMenuList(); // menuType = ICE 5, HOT 5
+        saveMenuList(); // menuType = ICE 10, HOT 10
         MenuSearchCondition cond = MenuSearchCondition.builder()
-                .menuName(null)
-                .menuType(null)
-                .menuStatus(ICE)
+                .menuStatus(HOT)
+                .page(2)
                 .build();
 
         // expected
         mockMvc.perform(get("/stable/v1/menuList")
                         .contentType(APPLICATION_JSON)
-                        .param("menuStatus", cond.getMenuStatus().toString()))
+                        .param("menuStatus", cond.getMenuStatus().toString())
+                        .param("page", cond.getPage().toString()))
                 .andExpect(jsonPath("$.message").value("메뉴 목록 검색"))
                 .andExpect(jsonPath("$.data.length()", is(5)))
-                .andExpect(jsonPath("$.data[0].menuId").value(1L))
-                .andExpect(jsonPath("$.data[1].menuId").value(3L))
+                .andExpect(jsonPath("$.data[0].menuId").value(9))
+                .andExpect(jsonPath("$.data[1].menuId").value(7L))
+                .andExpect(jsonPath("$.data[4].menuId").value(1L))
                 .andDo(print());
     }
 
     Menu menuSave() {
-        return Menu.builder()
+        Menu menu = Menu.builder()
                 .name("아이스 아메리카노")
                 .price(4800)
                 .stockQuantity(50)
                 .menuType(COFFEE)
                 .menuStatus(ICE)
                 .build();
+
+        menuRepository.save(menu);
+        return menu;
     }
 
     void saveMenuList() {
         List<Menu> menuList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Menu menu;
-            if (i % 2 == 0) {
-                menu = Menu.builder()
-                        .name("아이스 아메리카노"+i)
-                        .price(4800)
-                        .stockQuantity(50)
-                        .menuType(COFFEE)
-                        .menuStatus(ICE)
-                        .build();
+        for (int i = 1; i <= 20; i++) {
+
+            String name;
+            MenuStatus menuStatus;
+
+            if (i % 2 != 0) {
+                name = "아메리카노";
+                menuStatus = HOT;
             } else {
-                menu = Menu.builder()
-                        .name("아메리카노"+i)
-                        .price(4500)
-                        .stockQuantity(50)
-                        .menuType(COFFEE)
-                        .menuStatus(HOT)
-                        .build();
+                name = "아이스 아메리카노";
+                menuStatus = ICE;
             }
+
+            Menu menu = Menu.builder()
+                    .name(name)
+                    .price(4500)
+                    .stockQuantity(50)
+                    .menuType(COFFEE)
+                    .menuStatus(menuStatus)
+                    .build();
             menuList.add(menu);
         }
         menuRepository.saveAll(menuList);
