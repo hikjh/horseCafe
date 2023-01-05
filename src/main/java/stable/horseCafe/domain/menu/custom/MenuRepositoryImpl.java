@@ -1,6 +1,5 @@
 package stable.horseCafe.domain.menu.custom;
 
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,7 @@ import stable.horseCafe.web.dto.menu.QMenuResDto;
 
 import java.util.List;
 
-import static stable.horseCafe.domain.menu.QMenu.*;
+import static stable.horseCafe.domain.menu.QMenu.menu;
 
 @RequiredArgsConstructor
 public class MenuRepositoryImpl implements CustomMenuRepository {
@@ -37,6 +36,9 @@ public class MenuRepositoryImpl implements CustomMenuRepository {
                         menuTypeEq(cond.getMenuType()),     // COFFEE, TEA, ADE
                         menuStatus(cond.getMenuStatus())    // ICE, HOT
                 )
+                .limit(cond.getSize())
+                .offset(cond.getOffset())
+                .orderBy(menu.id.desc())
                 .fetch();
     }
 
