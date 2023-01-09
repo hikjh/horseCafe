@@ -11,11 +11,12 @@ import stable.horseCafe.domain.order.OrderStatus;
 import stable.horseCafe.domain.review.Review;
 import stable.horseCafe.domain.review.ReviewRepository;
 import stable.horseCafe.web.common.exception.GlobalException;
-import stable.horseCafe.web.common.response.code.ResponseCode;
 import stable.horseCafe.web.dto.review.ReviewResDto;
 import stable.horseCafe.web.dto.review.ReviewSaveReqDto;
 
 import java.util.List;
+
+import static stable.horseCafe.web.common.response.code.ResponseCode.BAD_REQUEST;
 
 @Service
 @RequiredArgsConstructor
@@ -33,17 +34,19 @@ public class ReviewService {
 
         // 메뉴 존재 여부 확인
         Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> {
-                    throw new GlobalException(ResponseCode.BAD_REQUEST, "해당 메뉴가 존재하지 않습니다.");
-                });
+                .orElseThrow(() -> new GlobalException(BAD_REQUEST, "존재하지 않는 메뉴입니다."));
 
         // 해당 사용자가 주문한 메뉴만 리뷰등록 가능
         OrderStatus orderStatus = orderRepository.findOrderStatus(member.getId(), menuId);
         if (orderStatus == null || !orderStatus.equals(OrderStatus.ORDER)) {
-            throw new GlobalException(ResponseCode.BAD_REQUEST, "주문상태의 상품만 리뷰 작성이 가능합니다.");
+            throw new GlobalException(BAD_REQUEST, "주문상태의 상품만 리뷰 작성이 가능합니다.");
         }
 
-        Review review = new Review(menu, member, dto.getContent());
+        Review review = Review.builder()
+                .menu(menu)
+                .member(member)
+                .content(dto.getContent())
+                .build();
         return reviewRepository.save(review).getId();
     }
 

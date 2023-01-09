@@ -8,10 +8,11 @@ import stable.horseCafe.config.jwt.JwtProvider;
 import stable.horseCafe.domain.member.Member;
 import stable.horseCafe.domain.member.MemberRepository;
 import stable.horseCafe.web.common.exception.GlobalException;
-import stable.horseCafe.web.common.response.code.ResponseCode;
 import stable.horseCafe.web.dto.member.MemberLoginReqDto;
 import stable.horseCafe.web.dto.member.MemberLoginResDto;
 import stable.horseCafe.web.dto.member.MemberSaveReqDto;
+
+import static stable.horseCafe.web.common.response.code.ResponseCode.BAD_REQUEST;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class MemberService {
 
         memberRepository.findByEmail(dto.getEmail())
                 .ifPresent(member -> {
-                    throw new GlobalException(ResponseCode.BAD_REQUEST, "존재하는 회원입니다.");
+                    throw new GlobalException(BAD_REQUEST, "이미 존재하는 회원입니다.");
                 });
 
         // 비밀번호 암호화
@@ -46,13 +47,11 @@ public class MemberService {
     public MemberLoginResDto login(MemberLoginReqDto dto) {
 
         Member member = memberRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> {
-                    throw new GlobalException(ResponseCode.BAD_REQUEST, "아이디 혹은 비밀번호를 확인하세요.");
-                });
+                .orElseThrow(() -> new GlobalException(BAD_REQUEST, "아이디 혹은 비밀번호를 확인하세요."));
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
-            throw new GlobalException(ResponseCode.BAD_REQUEST, "아이디 혹은 비밀번호를 확인하세요.");
+            throw new GlobalException(BAD_REQUEST, "아이디 혹은 비밀번호를 확인하세요.");
         }
 
         // AccessToken 생성
