@@ -5,15 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
-import stable.horseCafe.web.common.exception.GlobalException;
+import stable.horseCafe.web.common.exception.MenuNotFoundException;
 import stable.horseCafe.web.dto.menu.MenuResDto;
 import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
 import stable.horseCafe.web.dto.menu.MenuSearchCondition;
 import stable.horseCafe.web.dto.menu.MenuUpdateReqDto;
 
 import java.util.List;
-
-import static stable.horseCafe.web.common.response.code.ResponseCode.BAD_REQUEST;
 
 
 @Service
@@ -36,7 +34,7 @@ public class MenuService {
     @Transactional
     public Long editMenu(Long menuId, MenuUpdateReqDto dto) {
         Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new GlobalException(BAD_REQUEST, "존재하지 않는 메뉴입니다."));
+                .orElseThrow(MenuNotFoundException::new);
 
         menu.update(
                 dto.getName() != null ? dto.getName() : menu.getName(),
@@ -54,7 +52,7 @@ public class MenuService {
     @Transactional
     public Long deleteMenu(Long menuId) {
         Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new GlobalException(BAD_REQUEST, "존재하지 않는 메뉴입니다."));
+                .orElseThrow(MenuNotFoundException::new);
 
         menuRepository.delete(menu);
         return menuId;
@@ -65,7 +63,7 @@ public class MenuService {
      */
     public MenuResDto getMenu(Long menuId) {
         Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new GlobalException(BAD_REQUEST, "존재하지 않는 메뉴입니다."));
+                .orElseThrow(MenuNotFoundException::new);
         return MenuResDto.builder()
                 .menu(menu)
                 .build();

@@ -11,6 +11,7 @@ import stable.horseCafe.domain.order.OrderStatus;
 import stable.horseCafe.domain.review.Review;
 import stable.horseCafe.domain.review.ReviewRepository;
 import stable.horseCafe.web.common.exception.GlobalException;
+import stable.horseCafe.web.common.exception.MenuNotFoundException;
 import stable.horseCafe.web.dto.review.ReviewResDto;
 import stable.horseCafe.web.dto.review.ReviewSaveReqDto;
 
@@ -34,7 +35,7 @@ public class ReviewService {
 
         // 메뉴 존재 여부 확인
         Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new GlobalException(BAD_REQUEST, "존재하지 않는 메뉴입니다."));
+                .orElseThrow(MenuNotFoundException::new);
 
         // 해당 사용자가 주문한 메뉴만 리뷰등록 가능
         OrderStatus orderStatus = orderRepository.findOrderStatus(member.getId(), menuId);
