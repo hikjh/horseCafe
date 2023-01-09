@@ -70,14 +70,13 @@ class MenuControllerTest {
 
     @Test
     @WithMockUser(roles = "MEMBER")
-    @DisplayName("메뉴 수정")
+    @DisplayName("메뉴 수정 - null일 경우 기존 데이터 그대로 유지")
     void editMenu() throws Exception {
         // given
         Menu menu = menuSave();
         MenuUpdateReqDto reqDto = MenuUpdateReqDto.builder()
                 .name("아이스 아메리카노")
                 .price(4800)
-                .stockQuantity(70)
                 .menuType(COFFEE)
                 .menuStatus(ICE)
                 .build();

@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static stable.horseCafe.domain.menu.MenuStatus.HOT;
 import static stable.horseCafe.domain.menu.MenuStatus.ICE;
 import static stable.horseCafe.domain.menu.MenuType.COFFEE;
@@ -62,7 +61,7 @@ class MenuServiceTest {
     }
 
     @Test
-    @DisplayName("메뉴 수정")
+    @DisplayName("메뉴 수정 - null일 경우 기존 데이터 그대로 유지")
     void editMenu() {
         // given
         Menu menu = saveMenu();
@@ -70,7 +69,6 @@ class MenuServiceTest {
                 .builder()
                 .name("아메리카노")
                 .price(4500)
-                .stockQuantity(45)
                 .menuType(COFFEE)
                 .menuStatus(HOT)
                 .build();
@@ -82,7 +80,7 @@ class MenuServiceTest {
         assertNotNull(menu);
         assertEquals("아메리카노", menu.getName());
         assertEquals(4500, menu.getPrice());
-        assertEquals(45, menu.getStockQuantity());
+        assertEquals(50, menu.getStockQuantity());
         assertEquals(COFFEE, menu.getMenuType());
         assertEquals(HOT, menu.getMenuStatus());
     }
@@ -97,7 +95,7 @@ class MenuServiceTest {
         menuService.deleteMenu(menu.getId());
 
         // then
-        //assertNull(menu.getName());
+        assertEquals(0, menuRepository.count());
     }
 
     @Test
