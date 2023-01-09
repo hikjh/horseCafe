@@ -39,7 +39,13 @@ public class MenuService {
                     throw new GlobalException(ResponseCode.BAD_REQUEST, "존재하지 않는 메뉴입니다.");
                 });
 
-        menu.update(dto.getName(), dto.getPrice(), dto.getStockQuantity(), dto.getMenuType(), dto.getMenuStatus());
+        menu.update(
+                dto.getName() != null ? dto.getName() : menu.getName(),
+                dto.getPrice() != null ? dto.getPrice() : menu.getPrice(),
+                dto.getStockQuantity() != null ? dto.getStockQuantity() : menu.getStockQuantity(),
+                dto.getMenuType() != null ? dto.getMenuType() : menu.getMenuType(),
+                dto.getMenuStatus() != null ? dto.getMenuStatus() : menu.getMenuStatus());
+
         return menuId;
     }
 
