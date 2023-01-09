@@ -178,6 +178,7 @@ class MenuControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(jsonPath("$.message").value("존재하지 않는 메뉴입니다."))
+                .andExpect(jsonPath("$.status").value(404))
                 .andDo(print());
     }
 
@@ -192,6 +193,7 @@ class MenuControllerTest {
         mockMvc.perform(delete("/stable/v1/menu/{menuId}", menu.getId() + 1)
                         .contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value("존재하지 않는 메뉴입니다."))
+                .andExpect(jsonPath("$.status").value(404))
                 .andDo(print());
     }
 
@@ -206,6 +208,7 @@ class MenuControllerTest {
         mockMvc.perform(get("/stable/v1/menu/{menuId}", menu.getId() + 1)
                         .contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value("존재하지 않는 메뉴입니다."))
+                .andExpect(jsonPath("$.status").value(404))
                 .andDo(print());
     }
 

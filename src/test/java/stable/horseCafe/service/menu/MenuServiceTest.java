@@ -157,6 +157,7 @@ class MenuServiceTest {
 
         // then
         assertEquals("존재하지 않는 메뉴입니다.", ge.getMessage());
+        assertEquals("NOT_FOUND", ge.getCode().toString());
     }
 
     @Test
@@ -172,6 +173,7 @@ class MenuServiceTest {
 
         // then
         assertEquals("존재하지 않는 메뉴입니다.", ge.getMessage());
+        assertEquals("NOT_FOUND", ge.getCode().toString());
     }
 
     @Test
@@ -187,6 +189,7 @@ class MenuServiceTest {
 
         // then
         assertEquals("존재하지 않는 메뉴입니다.", ge.getMessage());
+        assertEquals("NOT_FOUND", ge.getCode().toString());
     }
 
     private Menu saveMenu() {
