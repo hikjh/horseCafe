@@ -158,6 +158,57 @@ class MenuControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @WithMockUser(roles = "MEMBER")
+    @DisplayName("메뉴 수정 - 예외처리 발생 테스트")
+    void editMenu_exception() throws Exception {
+        // given
+        Menu menu = menuSave();
+        MenuUpdateReqDto reqDto = MenuUpdateReqDto.builder()
+                .name("아이스 아메리카노")
+                .price(4800)
+                .menuType(COFFEE)
+                .menuStatus(ICE)
+                .build();
+
+        String json = objectMapper.writeValueAsString(reqDto);
+
+        // expected
+        mockMvc.perform(put("/stable/v1/menu/{menuId}", menu.getId() + 1)
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(jsonPath("$.message").value("존재하지 않는 메뉴입니다."))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser(roles = "MEMBER")
+    @DisplayName("메뉴 삭제 - 예외처리 발생 테스트")
+    void deleteMenu_exception() throws Exception {
+        // given
+        Menu menu = menuSave();
+
+        // expected
+        mockMvc.perform(delete("/stable/v1/menu/{menuId}", menu.getId() + 1)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("존재하지 않는 메뉴입니다."))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser(roles = "MEMBER")
+    @DisplayName("메뉴 단건 조회 - 예외처리 발생 테스트")
+    void getMenu_exception() throws Exception {
+        // given
+        Menu menu = menuSave();
+
+        // expected
+        mockMvc.perform(get("/stable/v1/menu/{menuId}", menu.getId() + 1)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.message").value("존재하지 않는 메뉴입니다."))
+                .andDo(print());
+    }
+
     Menu menuSave() {
         Menu menu = Menu.builder()
                 .name("아이스 아메리카노")

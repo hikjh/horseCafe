@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
+import stable.horseCafe.web.common.exception.GlobalException;
 import stable.horseCafe.web.dto.menu.MenuResDto;
 import stable.horseCafe.web.dto.menu.MenuSaveReqDto;
 import stable.horseCafe.web.dto.menu.MenuSearchCondition;
@@ -134,6 +135,58 @@ class MenuServiceTest {
         assertEquals(5, resultMenuList.size());
         assertEquals(HOT, resultMenuList.get(0).getMenuStatus());
         assertEquals(20L, resultMenuList.get(0).getMenuId());
+    }
+
+    @Test
+    @DisplayName("메뉴 수정 - 예외처리 발생 테스트")
+    void editMenu_exception() {
+        // given
+        Menu menu = saveMenu();
+        MenuUpdateReqDto reqDto = MenuUpdateReqDto
+                .builder()
+                .name("아메리카노")
+                .price(4500)
+                .menuType(COFFEE)
+                .menuStatus(HOT)
+                .build();
+
+        // when
+        GlobalException ge = assertThrows(GlobalException.class, () -> {
+            menuService.editMenu(menu.getId() + 1, reqDto);
+        });
+
+        // then
+        assertEquals("존재하지 않는 메뉴입니다.", ge.getMessage());
+    }
+
+    @Test
+    @DisplayName("메뉴 삭제 - 예외처리 발생 테스트")
+    void deleteMenu_exception() {
+        // given
+        Menu menu = saveMenu();
+
+        // when
+        GlobalException ge = assertThrows(GlobalException.class, () -> {
+            menuService.deleteMenu(menu.getId() + 1);
+        });
+
+        // then
+        assertEquals("존재하지 않는 메뉴입니다.", ge.getMessage());
+    }
+
+    @Test
+    @DisplayName("메뉴 단건 조회 - 예외처리 발생 테스트")
+    void getMenu_exception() {
+        // given
+        Menu menu = saveMenu();
+
+        // when
+        GlobalException ge = assertThrows(GlobalException.class, () -> {
+            menuService.getMenu(menu.getId() + 1);
+        });
+
+        // then
+        assertEquals("존재하지 않는 메뉴입니다.", ge.getMessage());
     }
 
     private Menu saveMenu() {
