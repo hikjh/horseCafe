@@ -1,6 +1,29 @@
 = HorseCafe API
+:toc:
+
+== 메뉴 등록
+=== 요청
+include::{snippets}/menu-register/http-request.adoc[]
+=== 요청 필드
+include::{snippets}/menu-register/request-fields.adoc[]
+=== 응답
+include::{snippets}/menu-register/http-response.adoc[]
+=== 응답 필드
+include::{snippets}/menu-register/response-fields.adoc[]
 
 == 메뉴 단건 조회
-include::{snippets}/index/curl-request.adoc[]
-include::{snippets}/index/http-request.adoc[]
-include::{snippets}/index/http-response.adoc[]
+=== 요청
+include::{snippets}/menu-get/http-request.adoc[]
+=== 요청 파라미터
+include::{snippets}/menu-get/path-parameters.adoc[]
+=== 응답
+include::{snippets}/menu-get/http-response.adoc[]
+=== 응답 필드
+include::{snippets}/menu-get/response-fields.adoc[]
+
+
+
+
+
+
+
