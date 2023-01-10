@@ -17,6 +17,7 @@ import stable.horseCafe.web.dto.review.ReviewSaveReqDto;
 
 import java.util.List;
 
+import static stable.horseCafe.domain.order.OrderStatus.*;
 import static stable.horseCafe.web.common.response.code.ResponseCode.BAD_REQUEST;
 
 @Service
@@ -39,7 +40,7 @@ public class ReviewService {
 
         // 해당 사용자가 주문한 메뉴만 리뷰등록 가능
         OrderStatus orderStatus = orderRepository.findOrderStatus(member.getEmail(), menuId);
-        if (orderStatus == null || !orderStatus.equals(OrderStatus.ORDER)) {
+        if (orderStatus == null || !orderStatus.equals(ORDER)) {
             throw new GlobalException(BAD_REQUEST, "주문상태의 상품만 리뷰 작성이 가능합니다.");
         }
 
