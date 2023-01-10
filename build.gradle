@@ -76,8 +76,10 @@ asciidoctor {
 
 bootJar {
 	dependsOn asciidoctor
-	from ("${asciidoctor.outputDir}/html5") {
-		into 'static/docs'
+
+	copy {
+		from asciidoctor.outputDir
+		into 'src/main/resources/static/docs'
 	}
 }
 // SpringBoot REST Docs 추가 끝
