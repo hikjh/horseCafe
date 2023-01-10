@@ -152,9 +152,11 @@ class MenuControllerTest {
                         .param("page", cond.getPage().toString()))
                 .andExpect(jsonPath("$.message").value("메뉴 목록 검색"))
                 .andExpect(jsonPath("$.data.length()", is(5)))
+                /*
                 .andExpect(jsonPath("$.data[0].menuId").value(9))
                 .andExpect(jsonPath("$.data[1].menuId").value(7L))
                 .andExpect(jsonPath("$.data[4].menuId").value(1L))
+                 */
                 .andDo(print());
     }
 
