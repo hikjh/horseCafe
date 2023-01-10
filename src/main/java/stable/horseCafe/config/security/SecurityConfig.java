@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
             .and()
                 .authorizeRequests()
-                .antMatchers("/h2-console/**", "/stable/v1/signUp", "/stable/v1/login", "/stable/v1/menuList").permitAll()
+                .antMatchers("/h2-console/**", "/stable/v1/signUp", "/stable/v1/login", "/stable/v1/menuList", "/docs/index.html").permitAll()
                 .antMatchers("/stable/v1/menu/**").hasRole("MEMBER") //나중에 ADMIN
                 .antMatchers("/stable/v1/**").hasRole("MEMBER")
                 .anyRequest().authenticated()
