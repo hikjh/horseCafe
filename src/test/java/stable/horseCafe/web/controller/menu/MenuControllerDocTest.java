@@ -52,7 +52,7 @@ public class MenuControllerDocTest {
         menuRepository.save(menu);
 
         // expected
-        this.mockMvc.perform(get("/stable/v1/menu/{menuId}", 1L)
+        this.mockMvc.perform(get("/stable/v1/menu/{menuId}", menu.getId())
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())

@@ -1,3 +1,6 @@
+= HorseCafe API
+
+== 메뉴 단건 조회
 include::{snippets}/index/curl-request.adoc[]
 include::{snippets}/index/http-request.adoc[]
 include::{snippets}/index/http-response.adoc[]
