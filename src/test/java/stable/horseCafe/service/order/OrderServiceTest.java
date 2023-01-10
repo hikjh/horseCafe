@@ -117,10 +117,11 @@ class OrderServiceTest {
          */
         // given
         order();
+        Member member = memberRepository.findByEmail("hong@gmail.com").get();
         Order order = orderRepository.findAll().get(0);
 
         // when
-        orderService.cancelOrder(order.getId());
+        orderService.cancelOrder(member, order.getId());
 
         // then
         assertEquals(CANCEL, order.getOrderStatus());
