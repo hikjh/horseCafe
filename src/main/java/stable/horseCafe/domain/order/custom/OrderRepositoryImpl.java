@@ -1,6 +1,5 @@
 package stable.horseCafe.domain.order.custom;
 
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +8,6 @@ import stable.horseCafe.domain.order.OrderStatus;
 import stable.horseCafe.web.dto.order.OrderResDto;
 import stable.horseCafe.web.dto.order.OrderSearchCondition;
 import stable.horseCafe.web.dto.order.QOrderResDto;
-import stable.horseCafe.web.dto.orderMenu.OrderMenuResDto;
 import stable.horseCafe.web.dto.orderMenu.QOrderMenuResDto;
 
 import java.util.List;
@@ -19,10 +17,10 @@ import java.util.stream.Collectors;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
-import static stable.horseCafe.domain.member.QMember.*;
-import static stable.horseCafe.domain.menu.QMenu.*;
-import static stable.horseCafe.domain.order.QOrder.*;
-import static stable.horseCafe.domain.orderMenu.QOrderMenu.*;
+import static stable.horseCafe.domain.member.QMember.member;
+import static stable.horseCafe.domain.menu.QMenu.menu;
+import static stable.horseCafe.domain.order.QOrder.order;
+import static stable.horseCafe.domain.orderMenu.QOrderMenu.orderMenu;
 
 @RequiredArgsConstructor
 public class OrderRepositoryImpl implements CustomOrderRepository{
@@ -30,13 +28,17 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<Order> findFetchById(Long orderId) {
+    public Optional<Order> findFetchById(String email, Long orderId) {
 
         Order resultOrder = queryFactory
                 .selectFrom(order)
+                .join(order.member, member).fetchJoin()
                 .join(order.orderMenus, orderMenu).fetchJoin()
                 .join(orderMenu.menu, menu).fetchJoin()
-                .where(order.id.eq(orderId))
+                .where(
+                        member.email.eq(email),
+                        order.id.eq(orderId)
+                )
                 .fetchOne();
 
         return Optional.of(resultOrder);
@@ -78,13 +80,13 @@ public class OrderRepositoryImpl implements CustomOrderRepository{
     }
 
     @Override
-    public OrderStatus findOrderStatus(Long memberId, Long menuId) {
+    public OrderStatus findOrderStatus(String email, Long menuId) {
         return queryFactory
                 .select(order.orderStatus)
                 .from(order)
                 .join(order.orderMenus, orderMenu)
                 .where(
-                        order.member.id.eq(memberId),
+                        order.member.email.eq(email),
                         orderMenu.menu.id.eq(menuId))
                 .fetchOne();
     }

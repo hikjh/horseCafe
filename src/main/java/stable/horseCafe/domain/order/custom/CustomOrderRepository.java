@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomOrderRepository {
-    Optional<Order> findFetchById(Long orderId);
+    Optional<Order> findFetchById(String email, Long orderId);
 
     List<OrderResDto> findOrderList(String email, OrderSearchCondition cond);
 
-    OrderStatus findOrderStatus(Long memberId, Long menuId);
+    OrderStatus findOrderStatus(String email, Long menuId);
 }

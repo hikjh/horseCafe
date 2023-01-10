@@ -62,8 +62,8 @@ public class OrderService {
      *  주문취소
      */
     @Transactional
-    public Long cancelOrder(Long orderId) {
-        Order order = orderRepository.findFetchById(orderId)
+    public Long cancelOrder(Member member, Long orderId) {
+        Order order = orderRepository.findFetchById(member.getEmail(), orderId)
                 .orElseThrow(OrderNotFoundException::new);
 
         order.cancel();
