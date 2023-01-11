@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import stable.horseCafe.domain.member.Member;
 import stable.horseCafe.domain.member.MemberRepository;
 import stable.horseCafe.web.dto.member.MemberLoginReqDto;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "stable.horseCafe.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
+@Transactional
 public class MemberControllerDocTest {
 
     @Autowired
@@ -73,7 +75,7 @@ public class MemberControllerDocTest {
     @DisplayName("로그인")
     void login() throws Exception {
         // given
-        //saveMember();   //회원가입
+        saveMember();   //회원가입
         MemberLoginReqDto reqDto = MemberLoginReqDto.builder()
                 .email("hong@gmail.com")
                 .password("1234")
@@ -101,8 +103,8 @@ public class MemberControllerDocTest {
     }
     void saveMember() {
         Member member = Member.builder()
-                .name("홍길동2")
-                .email("hong2@gmail.com")
+                .name("홍길동")
+                .email("hong@gmail.com")
                 .password(passwordEncoder.encode("1234"))
                 .build();
         memberRepository.save(member);

@@ -88,6 +88,7 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("로그인")
+    @Transactional
     void login() throws Exception {
         // given
         saveMember();

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
 import stable.horseCafe.domain.menu.MenuStatus;
@@ -37,6 +38,7 @@ import static stable.horseCafe.domain.menu.MenuType.COFFEE;
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "stable.horseCafe.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
+@Transactional
 public class MenuControllerDocTest {
 
     @Autowired
