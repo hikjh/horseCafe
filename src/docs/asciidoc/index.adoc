@@ -6,6 +6,27 @@
 :toclevels: 2
 :sectlinks:
 
+== 회원
+=== - 회원가입
+==== 요청
+include::{snippets}/member-signUp/http-request.adoc[]
+==== 요청 필드
+include::{snippets}/member-signUp/request-fields.adoc[]
+==== 응답
+include::{snippets}/member-signUp/http-response.adoc[]
+==== 응답 필드
+include::{snippets}/member-signUp/response-fields.adoc[]
+
+=== - 로그인
+==== 요청
+include::{snippets}/member-login/http-request.adoc[]
+==== 요청 필드
+include::{snippets}/member-login/request-fields.adoc[]
+==== 응답
+include::{snippets}/member-login/http-response.adoc[]
+==== 응답 필드
+include::{snippets}/member-login/response-fields.adoc[]
+
 == 메뉴
 === - 메뉴 등록
 ==== 요청

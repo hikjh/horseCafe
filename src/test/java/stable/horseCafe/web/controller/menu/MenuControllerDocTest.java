@@ -46,7 +46,6 @@ public class MenuControllerDocTest {
     @Autowired
     private MenuRepository menuRepository;
 
-
     @Test
     @WithMockUser(roles = "MEMBER")
     @DisplayName("메뉴 등록")
