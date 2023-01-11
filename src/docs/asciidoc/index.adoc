@@ -80,6 +80,26 @@ include::{snippets}/menu-getList/http-response.adoc[]
 ==== 응답 필드
 include::{snippets}/menu-getList/response-fields.adoc[]
 
+== 주문
+=== - 주문
+==== 요청
+include::{snippets}/order-register/http-request.adoc[]
+==== 요청 필드
+include::{snippets}/order-register/request-fields.adoc[]
+==== 응답
+include::{snippets}/order-register/http-response.adoc[]
+==== 응답 필드
+include::{snippets}/order-register/response-fields.adoc[]
 
+=== - 주문 취소
+==== 요청
+include::{snippets}/order-cancel/http-request.adoc[]
+==== 요청 파라미터
+include::{snippets}/order-cancel/path-parameters.adoc[]
+==== 응답
+include::{snippets}/order-cancel/http-response.adoc[]
+==== 응답 필드
+include::{snippets}/order-cancel/response-fields.adoc[]
 
+=== - 내 주문 목록 검색 조회
 
