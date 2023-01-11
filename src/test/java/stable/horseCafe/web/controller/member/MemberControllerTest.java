@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import stable.horseCafe.domain.member.Member;
 import stable.horseCafe.domain.member.MemberRepository;
 import stable.horseCafe.web.dto.member.MemberLoginReqDto;
 import stable.horseCafe.web.dto.member.MemberSaveReqDto;
@@ -35,6 +37,8 @@ class MemberControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void clean() {
@@ -47,8 +51,9 @@ class MemberControllerTest {
         // given
         MemberSaveReqDto reqDto = MemberSaveReqDto.builder()
                 .name("홍길동")
-                .email("hong@naver.com")
-                .password("1234").build();
+                .email("hong@gmail.com")
+                .password("1234")
+                .build();
 
         String json = objectMapper.writeValueAsString(reqDto);
 
@@ -67,7 +72,8 @@ class MemberControllerTest {
         MemberSaveReqDto reqDto = MemberSaveReqDto.builder()
                 .name("홍길동")
                 .email("")
-                .password("1234").build();
+                .password("1234")
+                .build();
 
         String json = objectMapper.writeValueAsString(reqDto);
 
@@ -84,10 +90,11 @@ class MemberControllerTest {
     @DisplayName("로그인")
     void login() throws Exception {
         // given
-        singUp();
+        saveMember();
         MemberLoginReqDto reqDto = MemberLoginReqDto.builder()
-                .email("hong@naver.com")
-                .password("1234").build();
+                .email("hong@gmail.com")
+                .password("1234")
+                .build();
 
         String json = objectMapper.writeValueAsString(reqDto);
 
@@ -97,5 +104,14 @@ class MemberControllerTest {
                         .content(json))
                 .andExpect(jsonPath("$.message").value("로그인"))
                 .andDo(print());
+    }
+
+    private void saveMember() {
+        Member member = Member.builder()
+                .name("홍길동")
+                .email("hong@gmail.com")
+                .password(passwordEncoder.encode("1234"))
+                .build();
+        memberRepository.save(member);
     }
 }
