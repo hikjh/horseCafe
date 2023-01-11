@@ -1,28 +1,63 @@
 = HorseCafe API
-:toc:
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
 
-== 메뉴 등록
-=== 요청
+== 메뉴
+=== - 메뉴 등록
+==== 요청
 include::{snippets}/menu-register/http-request.adoc[]
-=== 요청 필드
+==== 요청 필드
 include::{snippets}/menu-register/request-fields.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/menu-register/http-response.adoc[]
-=== 응답 필드
+==== 응답 필드
 include::{snippets}/menu-register/response-fields.adoc[]
 
-== 메뉴 단건 조회
-=== 요청
+=== - 메뉴 수정
+==== 요청
+include::{snippets}/menu-edit/http-request.adoc[]
+==== 요청 파라미터
+include::{snippets}/menu-edit/path-parameters.adoc[]
+==== 요청 필드
+include::{snippets}/menu-edit/request-fields.adoc[]
+==== 응답
+include::{snippets}/menu-edit/http-response.adoc[]
+==== 응답 필드
+include::{snippets}/menu-edit/response-fields.adoc[]
+
+=== - 메뉴 삭제
+==== 요청
+include::{snippets}/menu-delete/http-request.adoc[]
+==== 요청 파라미터
+include::{snippets}/menu-delete/path-parameters.adoc[]
+==== 응답
+include::{snippets}/menu-delete/http-response.adoc[]
+==== 응답 필드
+include::{snippets}/menu-delete/response-fields.adoc[]
+
+=== - 메뉴 단건 조회
+==== 요청
 include::{snippets}/menu-get/http-request.adoc[]
-=== 요청 파라미터
+==== 요청 파라미터
 include::{snippets}/menu-get/path-parameters.adoc[]
-=== 응답
+==== 응답
 include::{snippets}/menu-get/http-response.adoc[]
-=== 응답 필드
+==== 응답 필드
 include::{snippets}/menu-get/response-fields.adoc[]
 
-
-
+=== - 메뉴 목록 검색 조회 및 페이징
+==== 요청
+include::{snippets}/menu-getList/http-request.adoc[]
+==== 요청 파라미터
+include::{snippets}/menu-getList/request-parameters.adoc[]
+==== 응답
+include::{snippets}/menu-getList/http-response.adoc[]
+==== 응답 필드
+include::{snippets}/menu-getList/response-fields.adoc[]
 
 
 

@@ -231,13 +231,10 @@ class MenuControllerTest {
         List<Menu> menuList = new ArrayList<>();
         for (int i = 1; i <= 20; i++) {
 
-            String name;
-            MenuStatus menuStatus;
+            String name = "아메리카노";
+            MenuStatus menuStatus = HOT;
 
-            if (i % 2 != 0) {
-                name = "아메리카노";
-                menuStatus = HOT;
-            } else {
+            if (i % 2 == 0) {
                 name = "아이스 아메리카노";
                 menuStatus = ICE;
             }
