@@ -16,6 +16,7 @@ import stable.horseCafe.domain.menu.Menu;
 import stable.horseCafe.domain.menu.MenuRepository;
 import stable.horseCafe.domain.order.Order;
 import stable.horseCafe.domain.order.OrderRepository;
+import stable.horseCafe.domain.orderMenu.OrderMenu;
 import stable.horseCafe.web.dto.order.OrderSaveReqDto;
 import stable.horseCafe.web.dto.order.OrderSearchCondition;
 
@@ -110,11 +111,10 @@ class OrderControllerTest {
     @DisplayName("주문 취소")
     void cancelOder() throws Exception {
         // given
-        order();
-        List<Order> orderList = orderRepository.findAll();
+        Order order = saveOrder();
 
         // expected
-        mockMvc.perform(get("/stable/v1/cancelOrder/{orderId}", orderList.get(0).getId())
+        mockMvc.perform(get("/stable/v1/cancelOrder/{orderId}", order.getId())
                         .contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value("주문 취소"));
     }
@@ -124,7 +124,7 @@ class OrderControllerTest {
     @DisplayName("내 주문 목록 검색 조회")
     void getMyOrderList() throws Exception {
         // given
-        order();
+        saveOrder();
         OrderSearchCondition cond = OrderSearchCondition.builder()
                 .orderStatus(ORDER).build();
 
@@ -138,8 +138,28 @@ class OrderControllerTest {
                 /*
                 .andExpect(jsonPath("$.data[0].orderMenus[0].name").value("아메리카노 1"))
                  */
-                .andExpect(jsonPath("$.data[0].orderMenus[0].count").value(5))
-                .andExpect(jsonPath("$.data[0].totalPrice").value(25000))
+                .andExpect(jsonPath("$.data[0].orderMenus[0].count").value(1))
+                .andExpect(jsonPath("$.data[0].totalPrice").value(5000))
                 .andDo(print());
+    }
+
+    private Order saveOrder() {
+        Member member = memberRepository.findAll().get(0);  // 회원
+        Menu menu = menuRepository.findAll().get(0);        // 메뉴
+
+        List<OrderMenu> orderMenuList = new ArrayList<>();  // 주문 메뉴
+        OrderMenu orderMenu = OrderMenu.builder()
+                .menu(menu)
+                .count(1)
+                .orderMenuPrice(menu.getPrice())
+                .build();
+        orderMenuList.add(orderMenu);
+
+        Order order = Order.builder()                       // 주문
+                .orderMenus(orderMenuList)
+                .member(member)
+                .build();
+        orderRepository.save(order);
+        return order;
     }
 }
